@@ -60,7 +60,7 @@ class Character(Base):
     eye_color = Column(String(100))
     birth_year = Column(String(100))
     gender = Column(String(100))
-    id_homeworld = Column(Integer, ForeignKey('planet.id'))
+    id_homeworld = Column(Integer, ForeignKey('planet.id'), nullable=False)
     planet = relationship(Planet)
 
 class CharacterVehicle(Base):
@@ -73,24 +73,24 @@ class CharacterVehicle(Base):
 class CharacterFavorites(Base):
     __tablename__ = 'character_favorites'
     id_character = Column(Integer, ForeignKey(
-        'character.id'), primary_key=True)
-    id_user = Column(Integer, ForeignKey('user.id'))
+        'character.id'), primary_key=True, nullable=False)
+    id_user = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship(User)
     character = relationship(Character)
 
 
 class PlanetFavorites(Base):
     __tablename__ = 'planet_favorites'
-    id_planet = Column(Integer, ForeignKey('planet.id'), primary_key=True)
-    id_user = Column(Integer, ForeignKey('user.id'))
+    id_planet = Column(Integer, ForeignKey('planet.id'), primary_key=True, nullable=False)
+    id_user = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship(User)
     planet = relationship(Planet)
 
 
 class VehicleFavorites(Base):
     __tablename__ = 'vehicle_favorites'
-    id_vehicle = Column(Integer, ForeignKey('vehicle.id'), primary_key=True)
-    id_user = Column(Integer, ForeignKey('user.id'))
+    id_vehicle = Column(Integer, ForeignKey('vehicle.id'), primary_key=True, nullable=False)
+    id_user = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship(User)
     planet = relationship(Vehicle)
 
@@ -98,7 +98,7 @@ class VehicleFavorites(Base):
 class Post(Base):
     __tablename__ = 'post'
     id = Column(Integer, primary_key=True)
-    id_user = Column(Integer, ForeignKey('user.id'))
+    id_user = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship(User)
 
 
@@ -107,24 +107,24 @@ class Media(Base):
     id = Column(Integer, primary_key=True)
     type = Column(String(100))
     url = Column(String(250))
-    id_post = Column(Integer, ForeignKey('post.id'))
+    id_post = Column(Integer, ForeignKey('post.id'), nullable=False)
     post = relationship(Post)
 
 
 class Comment(Base):
     __tablename__ = 'comment'
     id = Column(Integer, primary_key=True)
-    id_author = Column(Integer, ForeignKey('user.id'))
+    id_author = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship(User)
-    id_post = Column(Integer, ForeignKey('post.id'))
+    id_post = Column(Integer, ForeignKey('post.id'), nullable=False)
     post = relationship(Post)
 
 
 class Follower(Base):
     __tablename__ = 'follower'
     id = Column(Integer, primary_key=True)
-    id_user_from = Column(Integer, ForeignKey('user.id'))
-    id_user_to = Column(Integer, ForeignKey('user.id'))
+    id_user_from = Column(Integer, ForeignKey('user.id'), nullable=False)
+    id_user_to = Column(Integer, ForeignKey('user.id'), nullable=False)
 
 
 def to_dict(self):
